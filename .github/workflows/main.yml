@@ -44,7 +44,7 @@ jobs:
           base64 -d keystore-b64.txt > eregister-keystore.jks
 
       - name: release android
-      - run: flutter build apk --release --split-per-abi
+        run: flutter build apk --release --split-per-abi
       
       - name: Push to Releases
         uses: ncipollo/release-action@v1
