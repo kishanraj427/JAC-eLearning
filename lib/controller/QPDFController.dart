@@ -64,7 +64,7 @@ class QPDFController extends GetxController {
   loadPDFPage() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     int? data = preferences.getInt(name);
-    pageNo.value = data != null ? data : 0;
+    pageNo.value = data ?? 0;
   }
 
   expand() {
@@ -77,13 +77,13 @@ class QPDFController extends GetxController {
 
   addToRecent() async {
     //var recentBookList = <RecentBook>[];
-    var book = Map<String, String>();
+    var book = <String, String>{};
     book['name'] = name;
     book['url'] = url;
 
     SharedPreferences preferences = await SharedPreferences.getInstance();
     var list = preferences.getStringList('recentQuestionList');
-    if (list == null) list = [];
+    list ??= [];
     String str = json.encode(book);
     if (list.contains(str)) list.remove(str);
     list.add(str);

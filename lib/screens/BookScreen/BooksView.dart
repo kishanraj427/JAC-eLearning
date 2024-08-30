@@ -5,7 +5,7 @@ import 'SolutionList.dart';
 // ignore: must_be_immutable
 class BooksView extends StatelessWidget {
   String clas, subject;
-  BooksView({required this.clas, required this.subject});
+  BooksView({super.key, required this.clas, required this.subject});
 
   @override
   Widget build(BuildContext context) {
@@ -14,10 +14,10 @@ class BooksView extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           title: Text(subject,
-              style: TextStyle(
+              style: const TextStyle(
                 color: Colors.red,
               )),
-          bottom: TabBar(
+          bottom: const TabBar(
             physics: BouncingScrollPhysics(),
             labelColor: Colors.red,
             labelStyle: TextStyle(

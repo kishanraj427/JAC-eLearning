@@ -25,8 +25,6 @@ class SubjectController extends GetxController {
           subjectList.add(subject);
         }
       });
-    } catch (e) {
-      print(e);
-    }
+    } catch (e) {}
   }
 }

@@ -1,6 +1,7 @@
 // ignore_for_file: unnecessary_null_comparison
 
 import 'package:any_link_preview/any_link_preview.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -14,7 +15,7 @@ import '../AppColor.dart';
 class NewsWidget extends StatelessWidget {
   String url, type, id, text;
   NewsWidget(
-      {required this.id,
+      {super.key, required this.id,
       required this.type,
       required this.text,
       required this.url});
@@ -51,7 +52,7 @@ class NewsWidget extends StatelessWidget {
                     appBar: AppBar(
                         title: Text(
                       text,
-                      style: TextStyle(color: Colors.redAccent),
+                      style: const TextStyle(color: Colors.redAccent),
                     )),
                     body: SizedBox.expand(child: SfPdfViewer.network(url)));
               },
@@ -73,11 +74,11 @@ class NewsWidget extends StatelessWidget {
           }
         },
         child: Container(
-          margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+          margin: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
           decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(9),
-              boxShadow: [
+              boxShadow: const [
                 BoxShadow(
                     color: Colors.black26,
                     spreadRadius: 1,
@@ -99,26 +100,21 @@ class NewsWidget extends StatelessWidget {
   }
 
   Widget urlWidget() {
-    return Column(
-      children: [
-        text == null
-            ? AnyLinkPreview(
-                link: url,
-                backgroundColor: Colors.white,
-                previewHeight: 140,
-                titleStyle:
-                    TextStyle(color: Colors.black, fontWeight: FontWeight.w500),
-                bodyStyle: TextStyle(
-                    color: Colors.black87, fontWeight: FontWeight.w400),
-                onTap: () {
-                  getUID();
-                  launchUrl();
-                },
-              )
-            : Container(),
-        text != null ? tile(Icons.article_rounded) : Container(),
-      ],
-    );
+    return (text == null || text.isEmpty)
+        ? AnyLinkPreview(
+            link: url,
+            backgroundColor: Colors.white,
+            previewHeight: 140,
+            titleStyle: const TextStyle(
+                color: Colors.black, fontWeight: FontWeight.w500),
+            bodyStyle: const TextStyle(
+                color: Colors.black87, fontWeight: FontWeight.w400),
+            onTap: () {
+              getUID();
+              launchUrl();
+            },
+          )
+        : Container();
   }
 
   Widget imageWidget(BuildContext context) {
@@ -126,7 +122,7 @@ class NewsWidget extends StatelessWidget {
       decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(12),
-          boxShadow: [
+          boxShadow: const [
             BoxShadow(
                 color: Colors.black26,
                 spreadRadius: 0,
@@ -135,17 +131,26 @@ class NewsWidget extends StatelessWidget {
           ]),
       child: Column(
         children: [
-          Image.network(
-            url,
+          CachedNetworkImage(
+            imageUrl: url,
             fit: BoxFit.fitWidth,
             height: 150,
             width: MediaQuery.of(context).size.width - 20,
+            imageBuilder: (context, imageProvider) =>
+                Image(image: imageProvider),
+            progressIndicatorBuilder: (context, url, progress) => SizedBox(
+              height: 15,
+              width: 15,
+              child: LinearProgressIndicator(
+                color: AppColor.mainColor,
+              ),
+            ),
           ),
           text != null
               ? Align(
                   alignment: Alignment.centerLeft,
                   child: Padding(
-                    padding: EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.all(8.0),
                     child: Text(
                       text,
                       textAlign: TextAlign.start,
@@ -168,7 +173,7 @@ class NewsWidget extends StatelessWidget {
       dense: true,
       hoverColor: Colors.redAccent,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-      contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+      contentPadding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
       leading: Icon(
         icon,
         color: Colors.redAccent,

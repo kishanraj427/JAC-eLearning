@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
 import 'package:jac_elearning/controller/QPDFController.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
@@ -7,8 +6,8 @@ import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 // ignore: must_be_immutable
 class OpenPDFQuestion extends StatelessWidget {
   late String name, pdfUrl, noti;
-  OpenPDFQuestion({required this.name, required this.pdfUrl});
-  final pdfViewerController = new PdfViewerController();
+  OpenPDFQuestion({super.key, required this.name, required this.pdfUrl});
+  final pdfViewerController = PdfViewerController();
 
   @override
   Widget build(BuildContext context) {
@@ -34,10 +33,10 @@ class OpenPDFQuestion extends StatelessWidget {
                   ? null
                   : AppBar(
                       title:
-                          Text(name, style: TextStyle(color: Colors.redAccent)),
+                          Text(name, style: const TextStyle(color: Colors.redAccent)),
                       actions: [
                         IconButton(
-                          icon: Icon(Icons.fullscreen_outlined),
+                          icon: const Icon(Icons.fullscreen_outlined),
                           onPressed: () {
                             pdfController.hide.value = true;
                             pdfController.expand();

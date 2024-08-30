@@ -1,3 +1,5 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'dart:io';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +11,7 @@ import '../../AppColor.dart';
 // ignore: must_be_immutable
 class SolutionList extends StatefulWidget {
   String clas, subject;
-  SolutionList({required this.clas, required this.subject});
+  SolutionList({super.key, required this.clas, required this.subject});
 
   @override
   _SolutionListState createState() => _SolutionListState();
@@ -50,18 +52,18 @@ class _SolutionListState extends State<SolutionList> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: AppColor.background,
-        body: bookList.length == 0
+        body: bookList.isEmpty
             ? Container(
                 alignment: Alignment.center,
-                child: Text('Nothing to Show',
+                child: const Text('Nothing to Show',
                     style: TextStyle(
                         fontSize: 25,
                         fontWeight: FontWeight.w600,
                         color: Colors.redAccent)),
               )
             : ListView.builder(
-                padding: EdgeInsets.symmetric(vertical: 10),
-                physics: BouncingScrollPhysics(),
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                physics: const BouncingScrollPhysics(),
                 itemCount: bookList.length,
                 itemBuilder: (context, index) {
                   return BookWidget(

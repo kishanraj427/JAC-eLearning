@@ -1,4 +1,3 @@
-import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -9,7 +8,7 @@ import 'QSubjectWidget.dart';
 // ignore: must_be_immutable
 class QClassesWidget extends StatefulWidget {
   String title;
-  QClassesWidget({required this.title});
+  QClassesWidget({super.key, required this.title});
 
   @override
   State<StatefulWidget> createState() => ClassesWidget2State();
@@ -33,11 +32,11 @@ class ClassesWidget2State extends State<QClassesWidget> {
     return Column(
       children: [
         Container(
-          margin: EdgeInsets.all(8),
+          margin: const EdgeInsets.all(8),
           decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(8),
-              boxShadow: [
+              boxShadow: const [
                 BoxShadow(
                     color: Colors.black26,
                     spreadRadius: 0,
@@ -85,14 +84,14 @@ class ClassesWidget2State extends State<QClassesWidget> {
           ),
         ),
         ConstrainedBox(
-            constraints: BoxConstraints(maxHeight: 200),
-            child: Obx(() => controller.subjectList.length == 0
-                ? CircularProgressIndicator.adaptive()
+            constraints: const BoxConstraints(maxHeight: 200),
+            child: Obx(() => controller.subjectList.isEmpty
+                ? const CircularProgressIndicator.adaptive()
                 : ListView.builder(
-                    physics: BouncingScrollPhysics(),
+                    physics: const BouncingScrollPhysics(),
                     //shrinkWrap: true,
                     scrollDirection: Axis.horizontal,
-                    padding: EdgeInsets.symmetric(horizontal: 10),
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
                     itemCount: controller.subjectList.length,
                     itemBuilder: (context, index) {
                       return QSubjectWidget(

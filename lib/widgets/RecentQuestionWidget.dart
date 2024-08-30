@@ -5,22 +5,22 @@ import 'package:jac_elearning/screens/QuestionScreen/OpenPDFQuestion.dart';
 // ignore: must_be_immutable
 class RecentQuestionWidget extends StatelessWidget {
   String url, name;
-  RecentQuestionWidget({required this.name, required this.url});
+  RecentQuestionWidget({super.key, required this.name, required this.url});
 
   @override
   Widget build(BuildContext context) {
     return Container(
       height: 150,
       width: 150,
-      margin: EdgeInsets.all(5),
+      margin: const EdgeInsets.all(5),
       decoration: BoxDecoration(
-          gradient: LinearGradient(
+          gradient: const LinearGradient(
               colors: [Colors.redAccent, Color(0xffffac69)],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
               stops: [0.2, 1]),
           borderRadius: BorderRadius.circular(20),
-          boxShadow: [
+          boxShadow: const [
             BoxShadow(
               color: Colors.black26,
               spreadRadius: 2,

@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:typed_data';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter/foundation.dart';
@@ -30,7 +29,7 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
 }
 
-void main() async {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
@@ -46,10 +45,12 @@ void main() async {
     sound: true,
   );
 
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
@@ -57,15 +58,15 @@ class MyApp extends StatelessWidget {
         title: 'JAC eLearning',
         theme: ThemeData(
             primarySwatch: Colors.red,
+            primaryColor: AppColor.mainColor,
             // accentColor: Colors.redAccent,
             // backgroundColor: AppColor.background,
             appBarTheme: AppBarTheme(
               color: AppColor.background,
-              iconTheme: IconThemeData(color: Colors.redAccent),
+              iconTheme: const IconThemeData(color: Colors.redAccent),
             )),
-        home: MySplash(
+        home: const MySplash(
           title: 'JAC eLearning',
-          key: super.key!,
         )
         //MyHomePage(title: 'JAC eLearning'),
         );
@@ -73,11 +74,12 @@ class MyApp extends StatelessWidget {
 }
 
 class MySplash extends StatefulWidget {
-  MySplash({required Key key, required this.title}) : super(key: key);
+  const MySplash({super.key, required this.title});
 
   final String title;
 
   @override
+  // ignore: library_private_types_in_public_api
   _MyHomePageState createState() => _MyHomePageState();
 }
 
@@ -86,7 +88,7 @@ class _MyHomePageState extends State<MySplash> {
   void initState() {
     super.initState();
     var initializationSettingAndroid =
-        AndroidInitializationSettings('@drawable/ic_noti');
+        const AndroidInitializationSettings('@drawable/ic_noti');
     var initializationSetting =
         InitializationSettings(android: initializationSettingAndroid);
     flutterLocalNotificationsPlugin.initialize(initializationSetting);
@@ -124,9 +126,9 @@ class _MyHomePageState extends State<MySplash> {
 
   loadPage() {
     Timer(
-        Duration(seconds: 4),
+        const Duration(seconds: 4),
         () => Get.off(
-            MyHomePage(
+            const MyHomePage(
               title: "JAC eLearning",
             ),
             curve: Curves.elasticInOut));
@@ -134,7 +136,7 @@ class _MyHomePageState extends State<MySplash> {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
         statusBarColor: Colors.white,
         statusBarIconBrightness: Brightness.dark));
 

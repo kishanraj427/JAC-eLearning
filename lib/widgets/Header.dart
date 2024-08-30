@@ -7,13 +7,13 @@ import '../AppColor.dart';
 // ignore: must_be_immutable
 class Header extends StatelessWidget {
   String path, title, description;
-  Header({required this.path, required this.title, required this.description});
+  Header({super.key, required this.path, required this.title, required this.description});
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
 
     return Padding(
-        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 3),
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 3),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -34,7 +34,7 @@ class Header extends StatelessWidget {
                   color: AppColor.title,
                   fontWeight: FontWeight.w400),
             ),
-            SizedBox(
+            const SizedBox(
               height: 15,
             ),
             Container(
@@ -44,7 +44,7 @@ class Header extends StatelessWidget {
               decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(15),
-                  boxShadow: [
+                  boxShadow: const [
                     BoxShadow(
                       color: Colors.black12,
                       blurRadius: 7,

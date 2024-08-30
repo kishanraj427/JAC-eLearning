@@ -1,4 +1,3 @@
-import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jac_elearning/screens/BookScreen/OpenPDF.dart';
@@ -6,14 +5,14 @@ import 'package:jac_elearning/screens/BookScreen/OpenPDF.dart';
 // ignore: must_be_immutable
 class BookWidget extends StatelessWidget {
   String title, pdfUrl, clas, subject, type;
-  BookWidget({required this.clas, required this.type, required this.subject, required this.title, required this.pdfUrl});
+  BookWidget({super.key, required this.clas, required this.type, required this.subject, required this.title, required this.pdfUrl});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.all(5),
+      margin: const EdgeInsets.all(5),
       decoration: BoxDecoration(
-          gradient: LinearGradient(
+          gradient: const LinearGradient(
               colors: [
                 Colors.redAccent,
                 Color(0xffff9472),
@@ -22,7 +21,7 @@ class BookWidget extends StatelessWidget {
               end: Alignment.bottomRight,
               stops: [0.2, 1]),
           borderRadius: BorderRadius.circular(20),
-          boxShadow: [
+          boxShadow: const [
             BoxShadow(
               color: Colors.black26,
               spreadRadius: 2,

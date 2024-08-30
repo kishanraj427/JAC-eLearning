@@ -1,6 +1,5 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jac_elearning/controller/QuestionController.dart';
@@ -10,7 +9,10 @@ import 'package:jac_elearning/widgets/RecentQuestionWidget.dart';
 import '../../AppColor.dart';
 
 class Question extends StatefulWidget {
+  const Question({super.key});
+
   @override
+  // ignore: library_private_types_in_public_api
   _QuestionState createState() => _QuestionState();
 }
 
@@ -29,7 +31,7 @@ class _QuestionState extends State<Question> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: CustomScrollView(physics: BouncingScrollPhysics(), slivers: [
+      body: CustomScrollView(physics: const BouncingScrollPhysics(), slivers: [
         SliverToBoxAdapter(
           child: Header(
             path: 'assets/lottie/test.json',
@@ -38,20 +40,19 @@ class _QuestionState extends State<Question> {
           ),
         ),
         Obx(() => SliverToBoxAdapter(
-              child: questionController.recentList.length == 0
+              child: questionController.recentList.isEmpty
                   ? Container()
                   : recentDat(context),
             )),
-        Obx(() => questionController.questionList.length == 0
+        Obx(() => questionController.questionList.isEmpty
                 ? SliverToBoxAdapter(
                     child: Padding(
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 30, vertical: 100),
-                    child: CircularProgressIndicator(),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 30, vertical: 100),
+                    child: CircularProgressIndicator(
+                        strokeWidth: 4, color: AppColor.mainColor),
                   ))
-                : ListView.builder(
-                    padding: EdgeInsets.symmetric(vertical: 10),
-                    physics: BouncingScrollPhysics(),
+                : SliverList.builder(
                     itemCount: questionController.questionList.length,
                     itemBuilder: (context, index) {
                       return QClassesWidget(
@@ -83,13 +84,13 @@ class _QuestionState extends State<Question> {
     return Column(
       children: [
         Container(
-          margin: EdgeInsets.symmetric(horizontal: 5, vertical: 10),
+          margin: const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
           width: MediaQuery.of(context).size.width,
-          padding: EdgeInsets.all(10),
+          padding: const EdgeInsets.all(10),
           decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(8),
-              boxShadow: [
+              boxShadow: const [
                 BoxShadow(
                     color: Colors.black26,
                     spreadRadius: 0,
@@ -107,12 +108,12 @@ class _QuestionState extends State<Question> {
           ),
         ),
         ConstrainedBox(
-            constraints: BoxConstraints(maxHeight: 200),
+            constraints: const BoxConstraints(maxHeight: 200),
             child: Obx(() => ListView.builder(
-                  physics: BouncingScrollPhysics(),
+                  physics: const BouncingScrollPhysics(),
                   // shrinkWrap: true,
                   scrollDirection: Axis.horizontal,
-                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
                   itemCount: questionController.recentList.length,
                   itemBuilder: (context, index) {
                     return RecentQuestionWidget(

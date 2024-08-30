@@ -24,15 +24,13 @@ class NewsController extends GetxController {
         var data = event.snapshot.value as Map?;
         if (data != null) {
           var news = News(
-              key: data['key'],
-              type: data['type'],
-              text: data['text'],
-              url: data['url']);
+              key: data['key'] ?? "",
+              type: data['type'] ?? "",
+              text: data['text'] ?? "",
+              url: data['url'] ?? "");
           newsList.insert(0, news);
         }
       });
-    } catch (e) {
-      print(e);
-    }
+    } catch (e) {}
   }
 }

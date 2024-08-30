@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
 import 'package:jac_elearning/controller/QSubjectController.dart';
 import 'package:jac_elearning/widgets/QSubjectWidget.dart';
@@ -8,9 +7,10 @@ import '../../AppColor.dart';
 // ignore: must_be_immutable
 class QSubjectScreen extends StatefulWidget {
   String clas;
-  QSubjectScreen({key, required this.clas});
+  QSubjectScreen({super.key, required this.clas});
 
   @override
+  // ignore: library_private_types_in_public_api
   _SunjectState createState() => _SunjectState();
 }
 
@@ -32,13 +32,13 @@ class _SunjectState extends State<QSubjectScreen> {
       appBar: AppBar(
         backgroundColor: AppColor.background,
         title: Text(widget.clas,
-            style: TextStyle(
+            style: const TextStyle(
               color: Colors.red,
             )),
       ),
       body: Obx(() => ListView.builder(
-                padding: EdgeInsets.symmetric(vertical: 10),
-                physics: BouncingScrollPhysics(),
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                physics: const BouncingScrollPhysics(),
                 itemCount: subjectController.subjectList.length,
                 itemBuilder: (context, index) {
                   return QSubjectWidget(

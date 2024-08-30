@@ -30,10 +30,10 @@ class ClassController extends GetxController {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     var list = preferences.getStringList('recentBookList');
     if (list != null) {
-      list.forEach((element) {
+      for (var element in list) {
         var data = jsonDecode(element);
         recentList.insert(0, data);
-      });
+      }
     }
   }
 }

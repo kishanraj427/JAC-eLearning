@@ -10,8 +10,7 @@ class QSubjectController extends GetxController {
 
   @override
   void onInit() {
-    rootRef =
-        FirebaseDatabase.instance.ref().child("Question").child(clas);
+    rootRef = FirebaseDatabase.instance.ref().child("Question").child(clas);
 
     loadData();
     super.onInit();
@@ -19,15 +18,15 @@ class QSubjectController extends GetxController {
 
   loadData() async {
     try {
-      print('load data Subject for $clas');
       rootRef.onChildAdded.listen((event) {
         var data = event.snapshot.value as Map?;
-        if(data != null){var subject = Subject(clas: data["clas"], subjectName: data["subject"]);
-        subjectList.add(subject);}
+        if (data != null) {
+          var subject =
+              Subject(clas: data["clas"], subjectName: data["subject"]);
+          subjectList.add(subject);
+        }
         //  debugPrint(subject.subjectName);
       });
-    } catch (e) {
-      print(e);
-    }
+    } catch (e) {}
   }
 }

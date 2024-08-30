@@ -1,3 +1,5 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jac_elearning/controller/SubjectController.dart';
@@ -7,7 +9,7 @@ import '../../AppColor.dart';
 // ignore: must_be_immutable
 class SubjectScreen extends StatefulWidget {
   String clas;
-  SubjectScreen({key, required this.clas});
+  SubjectScreen({super.key, required this.clas});
 
   @override
   _SunjectState createState() => _SunjectState();
@@ -31,13 +33,13 @@ class _SunjectState extends State<SubjectScreen> {
       backgroundColor: AppColor.background,
       appBar: AppBar(
         title: Text(widget.clas,
-            style: TextStyle(
+            style: const TextStyle(
               color: Colors.red,
             )),
       ),
       body: Obx(() => ListView.builder(
-                padding: EdgeInsets.symmetric(vertical: 10),
-                physics: BouncingScrollPhysics(),
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                physics: const BouncingScrollPhysics(),
                 itemCount: subjectController.subjectList.length,
                 itemBuilder: (context, index) {
                   return SubjectWidget(

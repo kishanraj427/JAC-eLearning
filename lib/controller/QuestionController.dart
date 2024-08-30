@@ -18,13 +18,11 @@ class QuestionController extends GetxController {
   }
 
   loadData() async {
-    print('load data start');
     rootRef.onChildAdded.listen((event) {
       Map? data = event.snapshot.value as Map?;
       if (data != null) {
         var name = data["name"];
         questionList.insert(0, name);
-        print(name);
       }
     });
   }
@@ -34,10 +32,10 @@ class QuestionController extends GetxController {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     var list = preferences.getStringList('recentQuestionList');
     if (list != null) {
-      list.forEach((element) {
+      for (var element in list) {
         var data = jsonDecode(element);
         recentList.insert(0, data);
-      });
+      }
     }
   }
 }

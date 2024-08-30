@@ -8,13 +8,16 @@ import 'package:jac_elearning/widgets/NewsWidget.dart';
 import '../../AppColor.dart';
 
 class Home extends StatefulWidget {
+  const Home({super.key});
+
   @override
+  // ignore: library_private_types_in_public_api
   _HomeState createState() => _HomeState();
 }
 
 class _HomeState extends State<Home> {
   String test = "";
-  News news = new News(key: "", text: "", type: "", url: "");
+  News news = News(key: "", text: "", type: "", url: "");
   late NewsController newsController;
   final controller = TextEditingController();
   final controller2 = TextEditingController();
@@ -30,7 +33,7 @@ class _HomeState extends State<Home> {
       backgroundColor: AppColor.background,
       resizeToAvoidBottomInset: false,
       body: CustomScrollView(
-        physics: BouncingScrollPhysics(),
+        physics: const BouncingScrollPhysics(),
         slivers: [
           SliverToBoxAdapter(
             child: Header(
@@ -40,18 +43,20 @@ class _HomeState extends State<Home> {
             ),
           ),
           SliverPadding(
-            padding: EdgeInsets.symmetric(vertical: 5),
+            padding: const EdgeInsets.symmetric(vertical: 5),
             sliver: SliverAppBar(
               pinned: true,
               floating: true,
               centerTitle: true,
+              backgroundColor: AppColor.background,
               title: Container(
                 // width: MediaQuery.of(context).size.width,
-                padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
                 decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(8),
-                    boxShadow: [
+                    boxShadow: const [
                       BoxShadow(
                           color: Colors.black26,
                           spreadRadius: 0,
@@ -69,18 +74,17 @@ class _HomeState extends State<Home> {
               ),
             ),
           ),
-          Obx(() => newsController.newsList.length == 0
+          Obx(() => newsController.newsList.isEmpty
                   ? SliverToBoxAdapter(
                       child: Padding(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 30, vertical: 100),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 30, vertical: 100),
                       child: CircularProgressIndicator(
                         strokeWidth: 4,
+                        color: AppColor.mainColor,
                       ),
                     ))
-                  : ListView.builder(
-                      padding: EdgeInsets.symmetric(vertical: 10),
-                      physics: BouncingScrollPhysics(),
+                  : SliverList.builder(
                       itemCount: newsController.newsList.length,
                       itemBuilder: (context, index) {
                         return NewsWidget(

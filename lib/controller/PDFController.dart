@@ -75,7 +75,7 @@ class PDFController extends GetxController {
     directory = Directory('${dir.path}/$clas/$subject/$type');
     if (await directory.exists() &&
         await File('${directory.path}/$name.pdf').exists()) {
-      file = new File('${directory.path}/$name.pdf');
+      file = File('${directory.path}/$name.pdf');
       isLoaded.value = true;
       loadPDFPage();
     } else {
@@ -86,14 +86,16 @@ class PDFController extends GetxController {
           var ct = await checkDirectory('${dir.path}/$clas/$subject/$type');
           if (ct) {
             var result = await Connectivity().checkConnectivity();
-            if (result != ConnectivityResult.none)
+            // ignore: unrelated_type_equality_checks
+            if (result != ConnectivityResult.none) {
               loadPDF(url);
-            else
+            } else {
               Get.snackbar('Connection Error', 'Please Turn on your Internet!',
                   snackPosition: SnackPosition.TOP,
                   borderColor: AppColor.mainColor,
                   borderWidth: 2,
                   backgroundColor: AppColor.white);
+            }
           }
         }
       }
@@ -101,7 +103,7 @@ class PDFController extends GetxController {
   }
 
   loadPDF(String url) async {
-    HttpClient clint = new HttpClient();
+    HttpClient clint = HttpClient();
     String myUrl;
     try {
       myUrl = url;
@@ -113,7 +115,7 @@ class PDFController extends GetxController {
         bytes.addAll(event);
         downData.value = (bytes.length * 100 / dataSize);
       }, onDone: () async {
-        file = new File('${directory.path}/$name.pdf');
+        file = File('${directory.path}/$name.pdf');
         await file.writeAsBytes(bytes);
         isLoaded.value = true;
       });
@@ -125,7 +127,7 @@ class PDFController extends GetxController {
   loadPDFPage() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     int? data = preferences.getInt(name);
-    pageNo.value = data != null ? data : 0;
+    pageNo.value = data ?? 0;
   }
 
   expand() {
@@ -143,7 +145,7 @@ class PDFController extends GetxController {
 
   addToRecent() async {
     //var recentBookList = <RecentBook>[];
-    var book = Map<String, String>();
+    var book = <String, String>{};
     book['clas'] = clas;
     book['subject'] = subject;
     book['type'] = type;
@@ -152,7 +154,7 @@ class PDFController extends GetxController {
 
     SharedPreferences preferences = await SharedPreferences.getInstance();
     var list = preferences.getStringList('recentBookList');
-    if (list == null) list = [];
+    list ??= [];
     String str = json.encode(book);
     if (list.contains(str)) list.remove(str);
     list.add(str);

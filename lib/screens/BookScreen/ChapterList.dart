@@ -1,7 +1,6 @@
 import 'dart:io';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:jac_elearning/models/Book.dart';
 import 'package:jac_elearning/widgets/BookWidget.dart';
 
@@ -10,9 +9,10 @@ import '../../AppColor.dart';
 // ignore: must_be_immutable
 class BookList extends StatefulWidget {
   String clas, subject;
-  BookList({required this.clas, required this.subject});
+  BookList({super.key, required this.clas, required this.subject});
 
   @override
+  // ignore: library_private_types_in_public_api
   _BookListState createState() => _BookListState();
 }
 
@@ -51,17 +51,15 @@ class _BookListState extends State<BookList> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: AppColor.background,
-        body: bookList.length == 0
-            ? Container(
-                child: Text('Nothing to Show',
-                    style: TextStyle(
-                        fontSize: 25,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.redAccent)),
-              )
+        body: bookList.isEmpty
+            ? const Text('Nothing to Show',
+                style: TextStyle(
+                    fontSize: 25,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.redAccent))
             : ListView.builder(
-                padding: EdgeInsets.symmetric(vertical: 10),
-                physics: BouncingScrollPhysics(),
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                physics: const BouncingScrollPhysics(),
                 itemCount: bookList.length,
                 itemBuilder: (context, index) {
                   return BookWidget(

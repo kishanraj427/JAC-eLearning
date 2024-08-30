@@ -1,5 +1,6 @@
+// ignore_for_file: unrelated_type_equality_checks
+
 import 'dart:io';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/services.dart';
@@ -17,16 +18,17 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({key, required this.title});
+  const MyHomePage({super.key, required this.title});
 
   final String title;
 
   @override
+  // ignore: library_private_types_in_public_api
   _MyHomePageState createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int appVersion = 4;
+  int appVersion = 11;
   int currentPage = 0;
   DatabaseReference rootRef = FirebaseDatabase.instance.ref();
   late PageController controller;
@@ -48,19 +50,19 @@ class _MyHomePageState extends State<MyHomePage> {
           snackPosition: SnackPosition.TOP,
           borderColor: Colors.redAccent,
           borderWidth: 2,
-          duration: Duration(seconds: 6),
+          duration: const Duration(seconds: 6),
           backgroundColor: AppColor.white);
     }
     bool file =
-        await File((await p.getExternalStorageDirectory())!.path + "/image.png")
+        await File("${(await p.getExternalStorageDirectory())!.path}/image.png")
             .exists();
     if (!file) {
       final bytes = await rootBundle.load('assets/images/jacImage.png');
-      new File((await p.getExternalStorageDirectory())!.path + "/image.png")
+      File("${(await p.getExternalStorageDirectory())!.path}/image.png")
           .writeAsBytes(bytes.buffer.asUint8List());
     }
     rootRef.child('App Version').once().then((value) {
-      if ((value.snapshot.value as int) >= appVersion) showUpdate();
+      if ((value.snapshot.value as int) > appVersion) showUpdate();
     });
   }
 
@@ -82,7 +84,7 @@ class _MyHomePageState extends State<MyHomePage> {
               onPressed: () {
                 Get.back();
               },
-              child: Text(
+              child: const Text(
                 'Cancel',
                 style: TextStyle(color: Colors.white),
               )),
@@ -92,8 +94,8 @@ class _MyHomePageState extends State<MyHomePage> {
               onPressed: () {
                 launch(androidAppURL);
               },
-              child: Text(
-                'Done',
+              child: const Text(
+                'Update',
                 style: TextStyle(color: Colors.white),
               ))
         ]);
@@ -116,7 +118,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 color: Colors.redAccent),
           ),
           leading: IconButton(
-              icon: Icon(
+              icon: const Icon(
                 Icons.menu_rounded,
                 color: Colors.redAccent,
               ),
@@ -125,15 +127,13 @@ class _MyHomePageState extends State<MyHomePage> {
               }),
           actions: [
             IconButton(
-                icon: Icon(
+                icon: const Icon(
                   Icons.share_rounded,
                   color: Colors.redAccent,
                 ),
                 onPressed: () async {
-                  File data = new File(
-                      (await p.getExternalStorageDirectory())!.path +
-                          "/image.png");
-                  print(data);
+                  File data = File(
+                      "${(await p.getExternalStorageDirectory())!.path}/image.png");
                   await data.exists()
                       ? Share.shareXFiles([XFile(data.path)],
                           text:
@@ -148,20 +148,20 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
         body: PageView(
           scrollDirection: Axis.horizontal,
-          physics: NeverScrollableScrollPhysics(),
+          physics: const NeverScrollableScrollPhysics(),
           controller: controller,
           onPageChanged: (value) {
             setState(() {
               currentPage = value;
             });
           },
-          children: [Home(), Books(), Question()],
+          children: const [Home(), Books(), Question()],
         ),
         bottomNavigationBar: BottomNavyBar(
           backgroundColor: AppColor.background,
           showElevation: true,
           mainAxisAlignment: MainAxisAlignment.spaceAround,
-          animationDuration: Duration(milliseconds: 300),
+          animationDuration: const Duration(milliseconds: 300),
           itemCornerRadius: 15,
           onItemSelected: (value) {
             setState(() {
@@ -189,7 +189,7 @@ class _MyHomePageState extends State<MyHomePage> {
   bottomsheet(BuildContext context) {
     return showModalBottomSheet(
       context: context,
-      shape: RoundedRectangleBorder(
+      shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
               topLeft: Radius.circular(15), topRight: Radius.circular(15))),
       enableDrag: true,
@@ -204,7 +204,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 result();
               },
               hoverColor: Colors.redAccent,
-              leading: Icon(
+              leading: const Icon(
                 Icons.article,
                 color: Colors.black87,
               ),
@@ -227,7 +227,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 Get.back();
               },
               hoverColor: Colors.redAccent,
-              leading: Icon(
+              leading: const Icon(
                 Icons.account_balance_rounded,
                 color: Colors.black87,
               ),
@@ -252,7 +252,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 Get.back();
               },
               hoverColor: Colors.redAccent,
-              leading: Icon(
+              leading: const Icon(
                 Icons.email_rounded,
                 color: Colors.black87,
               ),
@@ -272,7 +272,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 Get.back();
               },
               hoverColor: Colors.redAccent,
-              leading: Icon(
+              leading: const Icon(
                 Icons.star_rate_outlined,
                 color: Colors.black87,
               ),
@@ -295,7 +295,7 @@ class _MyHomePageState extends State<MyHomePage> {
   result() {
     Get.defaultDialog(
         title: 'JAC Result',
-        titleStyle: TextStyle(color: Colors.black, fontSize: 20),
+        titleStyle: const TextStyle(color: Colors.black, fontSize: 20),
         content: Column(
           children: [
             tile('JAC 09th', 'Result/09th'),
@@ -328,7 +328,7 @@ class _MyHomePageState extends State<MyHomePage> {
         }
       },
       hoverColor: Colors.redAccent,
-      leading: Icon(
+      leading: const Icon(
         Icons.article,
         color: Colors.black87,
       ),

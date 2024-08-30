@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jac_elearning/controller/ClassController.dart';
@@ -9,6 +8,8 @@ import 'package:jac_elearning/AppColor.dart';
 import 'package:jac_elearning/widgets/RecentBookWidget.dart';
 
 class Books extends StatefulWidget {
+  const Books({super.key});
+
   @override
   BooksState createState() => BooksState();
 }
@@ -24,7 +25,7 @@ class BooksState extends State<Books> {
 
     return Scaffold(
       body: CustomScrollView(
-        physics: BouncingScrollPhysics(),
+        physics: const BouncingScrollPhysics(),
         slivers: [
           SliverToBoxAdapter(
             child: Header(
@@ -34,34 +35,28 @@ class BooksState extends State<Books> {
             ),
           ),
           Obx(() => SliverToBoxAdapter(
-                child: classController.recentList.length == 0
+                child: classController.recentList.isEmpty
                     ? Container()
                     : recentDat(context),
               )),
           Obx(
-            () => classController.classList.length == 0
+            () => classController.classList.isEmpty
                 ? SliverToBoxAdapter(
                     child: Padding(
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 30, vertical: 100),
-                    child: CircularProgressIndicator.adaptive(),
-                  ))
-                : GridView.builder(
-                    gridDelegate: SliverWovenGridDelegate.count(
-                      pattern: [WovenGridTile(1)],
-                      crossAxisCount: 1,
-                      mainAxisSpacing: 4,
-                      crossAxisSpacing: 4,
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 30, vertical: 100),
+                    child: CircularProgressIndicator(
+                      strokeWidth: 4,
+                      color: AppColor.mainColor,
                     ),
+                  ))
+                : SliverList.builder(
                     itemCount: classController.classList.length,
                     itemBuilder: (context, index) {
                       return ClassesWidget(
                         title: classController.classList[index],
                       );
                     },
-                    // staggeredTileBuilder: (index) {
-                    //   return new StaggeredTile.fit(1);
-                    // },
                   ),
           )
         ],
@@ -74,13 +69,13 @@ class BooksState extends State<Books> {
     return Column(
       children: [
         Container(
-          margin: EdgeInsets.symmetric(horizontal: 5, vertical: 10),
+          margin: const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
           width: MediaQuery.of(context).size.width,
-          padding: EdgeInsets.all(10),
+          padding: const EdgeInsets.all(10),
           decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(8),
-              boxShadow: [
+              boxShadow: const[
                 BoxShadow(
                     color: Colors.black26,
                     spreadRadius: 0,
@@ -98,12 +93,12 @@ class BooksState extends State<Books> {
           ),
         ),
         ConstrainedBox(
-            constraints: BoxConstraints(maxHeight: 200),
+            constraints: const BoxConstraints(maxHeight: 200),
             child: Obx(() => ListView.builder(
-                  physics: BouncingScrollPhysics(),
+                  physics: const BouncingScrollPhysics(),
                   // shrinkWrap: true,
                   scrollDirection: Axis.horizontal,
-                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
                   itemCount: classController.recentList.length,
                   itemBuilder: (context, index) {
                     return RecentBookWidget(

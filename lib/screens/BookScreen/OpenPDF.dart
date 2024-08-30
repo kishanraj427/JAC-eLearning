@@ -10,8 +10,13 @@ import '../../AppColor.dart';
 // ignore: must_be_immutable
 class OpenPDF extends StatelessWidget {
   String name, pdfUrl, clas, subject, type;
-  OpenPDF({required this.clas, required this.type, required this.subject, required this.name, required this.pdfUrl});
-  final pdfViewerController = new PdfViewerController();
+  OpenPDF(
+      {super.key, required this.clas,
+      required this.type,
+      required this.subject,
+      required this.name,
+      required this.pdfUrl});
+  final pdfViewerController = PdfViewerController();
 
   @override
   Widget build(BuildContext context) {
@@ -39,11 +44,11 @@ class OpenPDF extends StatelessWidget {
               appBar: pdfController.hide.value
                   ? null
                   : AppBar(
-                      title:
-                          Text(name, style: TextStyle(color: Colors.redAccent)),
+                      title: Text(name,
+                          style: const TextStyle(color: Colors.redAccent)),
                       actions: [
                         IconButton(
-                            icon: Icon(
+                            icon: const Icon(
                               Icons.ios_share_rounded,
                               color: Colors.redAccent,
                             ),
@@ -61,7 +66,7 @@ class OpenPDF extends StatelessWidget {
                                       toastLength: Toast.LENGTH_SHORT);
                             }),
                         IconButton(
-                          icon: Icon(Icons.fullscreen_outlined),
+                          icon: const Icon(Icons.fullscreen_outlined),
                           onPressed: () {
                             pdfController.hide.value = true;
                             pdfController.expand();
@@ -87,9 +92,9 @@ class OpenPDF extends StatelessWidget {
                         },
                       )
                     : Container(
-                        margin: EdgeInsets.only(top: 20),
+                        margin: const EdgeInsets.only(top: 20),
                         alignment: Alignment.topCenter,
-                        child: Container(
+                        child: SizedBox(
                           height: 100,
                           width: 100,
                           child: Stack(
@@ -97,14 +102,13 @@ class OpenPDF extends StatelessWidget {
                             children: [
                               CircularProgressIndicator(
                                 strokeWidth: 7,
+                                color: AppColor.mainColor,
                               ),
                               Center(
                                 child: Text(
-                                  pdfController.downData.value
-                                          .toStringAsFixed(0) +
-                                      "%",
+                                  "${pdfController.downData.value.toStringAsFixed(0)}%",
                                   textAlign: TextAlign.center,
-                                  style: TextStyle(fontSize: 30),
+                                  style: const TextStyle(fontSize: 30),
                                 ),
                               )
                             ],

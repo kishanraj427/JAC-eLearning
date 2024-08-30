@@ -4,12 +4,13 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:jac_elearning/controller/SubjectController.dart';
 import 'package:jac_elearning/screens/BookScreen/SubjectScreen.dart';
 
+import '../AppColor.dart';
 import 'SubjectWidget.dart';
 
 // ignore: must_be_immutable
 class ClassesWidget extends StatefulWidget {
   String title;
-  ClassesWidget({required this.title});
+  ClassesWidget({super.key, required this.title});
 
   @override
   State<StatefulWidget> createState() => ClassesWidget2State();
@@ -33,11 +34,11 @@ class ClassesWidget2State extends State<ClassesWidget> {
     return Column(
       children: [
         Container(
-          margin: EdgeInsets.symmetric(horizontal: 5, vertical: 10),
+          margin: const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
           decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(8),
-              boxShadow: [
+              boxShadow: const [
                 BoxShadow(
                     color: Colors.black26,
                     spreadRadius: 0,
@@ -85,14 +86,16 @@ class ClassesWidget2State extends State<ClassesWidget> {
           ),
         ),
         ConstrainedBox(
-            constraints: BoxConstraints(maxHeight: 200),
-            child: Obx(() => controller.subjectList.length == 0
-                ? CircularProgressIndicator.adaptive()
+            constraints: const BoxConstraints(maxHeight: 200),
+            child: Obx(() => controller.subjectList.isEmpty
+                ? CircularProgressIndicator(
+                    color: AppColor.mainColor,
+                  )
                 : ListView.builder(
-                    physics: BouncingScrollPhysics(),
+                    physics: const BouncingScrollPhysics(),
                     // shrinkWrap: true,
                     scrollDirection: Axis.horizontal,
-                    padding: EdgeInsets.symmetric(horizontal: 10),
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
                     itemCount: controller.subjectList.length,
                     itemBuilder: (context, index) {
                       return SubjectWidget(
