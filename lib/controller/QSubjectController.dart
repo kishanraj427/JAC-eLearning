@@ -1,18 +1,17 @@
 import 'package:firebase_database/firebase_database.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:jac_elearning/models/Subject.dart';
 
 class QSubjectController extends GetxController {
   String clas;
-  QSubjectController({@required this.clas});
+  QSubjectController({required this.clas});
   RxList subjectList = [].obs;
-  DatabaseReference rootRef;
+  late DatabaseReference rootRef;
 
   @override
   void onInit() {
     rootRef =
-        FirebaseDatabase.instance.reference().child("Question").child(clas);
+        FirebaseDatabase.instance.ref().child("Question").child(clas);
 
     loadData();
     super.onInit();
@@ -22,9 +21,9 @@ class QSubjectController extends GetxController {
     try {
       print('load data Subject for $clas');
       rootRef.onChildAdded.listen((event) {
-        var data = event.snapshot.value;
-        var subject = Subject(clas: data["clas"], subjectName: data["subject"]);
-        subjectList.add(subject);
+        var data = event.snapshot.value as Map?;
+        if(data != null){var subject = Subject(clas: data["clas"], subjectName: data["subject"]);
+        subjectList.add(subject);}
         //  debugPrint(subject.subjectName);
       });
     } catch (e) {

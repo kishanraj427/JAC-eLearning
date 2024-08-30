@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
-import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jac_elearning/controller/NewsController.dart';
 import 'package:jac_elearning/models/News.dart';
@@ -16,8 +14,8 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   String test = "";
-  News news = new News();
-  NewsController newsController;
+  News news = new News(key: "", text: "", type: "", url: "");
+  late NewsController newsController;
   final controller = TextEditingController();
   final controller2 = TextEditingController();
   @override
@@ -71,34 +69,46 @@ class _HomeState extends State<Home> {
               ),
             ),
           ),
-          Obx(
-            () => newsController.newsList.length == 0
-                ? SliverToBoxAdapter(
-                    child: Padding(
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 30, vertical: 100),
-                    child: CircularProgressIndicator(
-                      strokeWidth: 4,
-                    ),
-                  ))
-                : SliverStaggeredGrid.countBuilder(
-                    crossAxisCount: 1,
-                    itemCount: newsController.newsList.length,
-                    itemBuilder: (context, index) {
-                      return NewsWidget(
-                        id: newsController.newsList[index].key,
-                        text: newsController.newsList[index].text,
-                        type: newsController.newsList[index].type,
-                        url: newsController.newsList[index].url,
-                      );
-                    },
-                    staggeredTileBuilder: (index) {
-                      return new StaggeredTile.fit(1);
-                    },
-                    mainAxisSpacing: 4,
-                    crossAxisSpacing: 4,
-                  ),
-          )
+          Obx(() => newsController.newsList.length == 0
+                  ? SliverToBoxAdapter(
+                      child: Padding(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 30, vertical: 100),
+                      child: CircularProgressIndicator(
+                        strokeWidth: 4,
+                      ),
+                    ))
+                  : ListView.builder(
+                      padding: EdgeInsets.symmetric(vertical: 10),
+                      physics: BouncingScrollPhysics(),
+                      itemCount: newsController.newsList.length,
+                      itemBuilder: (context, index) {
+                        return NewsWidget(
+                          id: newsController.newsList[index].key,
+                          text: newsController.newsList[index].text,
+                          type: newsController.newsList[index].type,
+                          url: newsController.newsList[index].url,
+                        );
+                      },
+                    )
+              // : SliverStaggeredGrid.countBuilder(
+              //     crossAxisCount: 1,
+              //     itemCount: newsController.newsList.length,
+              //     itemBuilder: (context, index) {
+              //       return NewsWidget(
+              //         id: newsController.newsList[index].key,
+              //         text: newsController.newsList[index].text,
+              //         type: newsController.newsList[index].type,
+              //         url: newsController.newsList[index].url,
+              //       );
+              //     },
+              //     staggeredTileBuilder: (index) {
+              //       return new StaggeredTile.fit(1);
+              //     },
+              //     mainAxisSpacing: 4,
+              //     crossAxisSpacing: 4,
+              //   ),
+              )
         ],
       ),
     );

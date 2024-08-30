@@ -1,17 +1,16 @@
 import 'dart:io';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:share/share.dart';
 import 'package:get/get.dart';
 import 'package:jac_elearning/controller/PDFController.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 import '../../AppColor.dart';
 
 // ignore: must_be_immutable
 class OpenPDF extends StatelessWidget {
   String name, pdfUrl, clas, subject, type;
-  OpenPDF({this.clas, this.type, this.subject, this.name, this.pdfUrl});
+  OpenPDF({required this.clas, required this.type, required this.subject, required this.name, required this.pdfUrl});
   final pdfViewerController = new PdfViewerController();
 
   @override
@@ -31,7 +30,7 @@ class OpenPDF extends StatelessWidget {
               return !h;
             }
             pdfController.setData();
-            pdfController.interstitialAd.value.show();
+            // pdfController.interstitialAd.value.show();
             return h;
           },
           child: Scaffold(
@@ -52,7 +51,7 @@ class OpenPDF extends StatelessWidget {
                               File data = File(
                                   '${pdfController.directory.path}/$name.pdf');
                               await data.exists()
-                                  ? Share.shareFiles([data.path],
+                                  ? Share.shareXFiles([XFile(data.path)],
                                       text: "Shared from JAC eLearning App")
                                   : Fluttertoast.showToast(
                                       msg: "Unable to Share",
@@ -112,15 +111,14 @@ class OpenPDF extends StatelessWidget {
                           ),
                         ),
                       ),
-                Positioned(
-                  bottom: 0.5,
-                  child: Container(
-                    width: Get.width,
-                    height: Get.height * 0.1,
-                    alignment: Alignment.bottomCenter,
-                    child: pdfController.banner.value
-                  ),
-                )
+                // Positioned(
+                //   bottom: 0.5,
+                //   child: Container(
+                //       width: Get.width,
+                //       height: Get.height * 0.1,
+                //       alignment: Alignment.bottomCenter,
+                //       child: pdfController.banner.value),
+                // )
               ])));
     });
   }

@@ -6,7 +6,7 @@ import 'package:jac_elearning/screens/QuestionScreen/OpenPDFQuestion.dart';
 // ignore: must_be_immutable
 class QuestionWidget extends StatelessWidget {
   String title, pdfUrl;
-  QuestionWidget({this.title, this.pdfUrl});
+  QuestionWidget({required this.title, required this.pdfUrl});
 
   @override
   Widget build(BuildContext context) {

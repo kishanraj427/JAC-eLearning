@@ -8,7 +8,7 @@ import 'dart:convert';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:flutter_google_ad_manager/flutter_google_ad_manager.dart';
+// import 'package:flutter_google_ad_manager/flutter_google_ad_manager.dart';
 
 class PDFController extends GetxController {
   String url, name, clas, subject, type;
@@ -16,64 +16,62 @@ class PDFController extends GetxController {
   RxBool isLoaded = false.obs;
   RxInt pageNo = 0.obs;
   RxDouble downData = 0.0.obs;
-  File file;
-  Directory directory, dir;
+  late File file;
+  late Directory directory, dir;
 
-  Rx<DFPBanner> banner = DFPBanner(
-    isDevelop: false,
-    adUnitId: 'ca-app-pub-7992530201347666/6612650124',
-    adSize: DFPAdSize.BANNER,
-    onAdLoaded: () {
-      print('Banner onAdLoaded');
-    },
-    onAdFailedToLoad: (errorCode) {
-      print('Banner onAdFailedToLoad: errorCode:$errorCode');
-    },
-    onAdOpened: () {
-      print('Banner onAdOpened');
-    },
-    onAdClosed: () {
-      print('Banner onAdClosed');
-    },
-    onAdLeftApplication: () {
-      print('Banner onAdLeftApplication');
-    },
-  ).obs;
+  // Rx<DFPBanner> banner = DFPBanner(
+  //   isDevelop: false,
+  //   adUnitId: 'ca-app-pub-7992530201347666/6612650124',
+  //   adSize: DFPAdSize.BANNER,
+  //   onAdLoaded: () {
+  //     print('Banner onAdLoaded');
+  //   },
+  //   onAdFailedToLoad: (errorCode) {
+  //     print('Banner onAdFailedToLoad: errorCode:$errorCode');
+  //   },
+  //   onAdOpened: () {
+  //     print('Banner onAdOpened');
+  //   },
+  //   onAdClosed: () {
+  //     print('Banner onAdClosed');
+  //   },
+  //   onAdLeftApplication: () {
+  //     print('Banner onAdLeftApplication');
+  //   },
+  // ).obs;
 
-  Rx<DFPInterstitialAd> interstitialAd = DFPInterstitialAd(
-    isDevelop: false,
-    adUnitId: "ca-app-pub-7992530201347666/9442186968",
-    onAdLoaded: () {
-      print('interstitialAd onAdLoaded');
-    },
-    onAdFailedToLoad: (errorCode) {
-      print('interstitialAd onAdFailedToLoad: errorCode:$errorCode');
-    },
-    onAdOpened: () {
-      print('interstitialAd onAdOpened');
-    },
-    onAdClosed: () {
-      print('interstitialAd onAdClosed');
-    },
-    onAdLeftApplication: () {
-      print('interstitialAd onAdLeftApplication');
-    },
-  ).obs;
+  // Rx<DFPInterstitialAd> interstitialAd = DFPInterstitialAd(
+  //   isDevelop: false,
+  //   adUnitId: "ca-app-pub-7992530201347666/9442186968",
+  //   onAdLoaded: () {
+  //     print('interstitialAd onAdLoaded');
+  //   },
+  //   onAdFailedToLoad: (errorCode) {
+  //     print('interstitialAd onAdFailedToLoad: errorCode:$errorCode');
+  //   },
+  //   onAdOpened: () {
+  //     print('interstitialAd onAdOpened');
+  //   },
+  //   onAdClosed: () {
+  //     print('interstitialAd onAdClosed');
+  //   },
+  //   onAdLeftApplication: () {
+  //     print('interstitialAd onAdLeftApplication');
+  //   },
+  // ).obs;
 
-
-  PDFController({this.clas, this.type, this.subject, this.name, this.url});
+  PDFController({required this.clas, required this.type, required this.subject, required this.name, required this.url});
 
   @override
   void onInit() {
     super.onInit();
     addToRecent();
     load();
-    interstitialAd.value.load();
+    // interstitialAd.value.load();
   }
 
-
   load() async {
-    dir = await getExternalStorageDirectory();
+    dir = (await getExternalStorageDirectory())!;
     directory = Directory('${dir.path}/$clas/$subject/$type');
     if (await directory.exists() &&
         await File('${directory.path}/$name.pdf').exists()) {
@@ -126,14 +124,14 @@ class PDFController extends GetxController {
 
   loadPDFPage() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
-    int data = preferences.getInt(name);
+    int? data = preferences.getInt(name);
     pageNo.value = data != null ? data : 0;
   }
 
   expand() {
     hide.value
-        ? SystemChrome.setEnabledSystemUIOverlays([])
-        : SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.top]);
+        ? SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: [])
+        : SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: [SystemUiOverlay.top]);
     Fluttertoast.showToast(
         msg: hide.value ? "FullScreen Enable" : "FullScreen Disable");
   }

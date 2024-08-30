@@ -6,7 +6,7 @@ import 'package:jac_elearning/screens/QuestionScreen/YearList.dart';
 // ignore: must_be_immutable
 class QSubjectWidget extends StatelessWidget {
   String clas, subject;
-  QSubjectWidget({this.clas, this.subject});
+  QSubjectWidget({required this.clas, required this.subject});
 
   @override
   Widget build(BuildContext context) {

@@ -14,7 +14,8 @@ import 'MyHomePage.dart';
 const AndroidNotificationChannel channel = AndroidNotificationChannel(
     'jac', // id
     'High Importance Notifications', // title
-    'This channel is used for important notifications.', // description
+    description:
+        'This channel is used for important notifications.', // description
     importance: Importance.high,
     enableVibration: true,
     ledColor: Colors.redAccent,
@@ -56,21 +57,23 @@ class MyApp extends StatelessWidget {
         title: 'JAC eLearning',
         theme: ThemeData(
             primarySwatch: Colors.red,
-            accentColor: Colors.redAccent,
-            backgroundColor: AppColor.background,
+            // accentColor: Colors.redAccent,
+            // backgroundColor: AppColor.background,
             appBarTheme: AppBarTheme(
               color: AppColor.background,
               iconTheme: IconThemeData(color: Colors.redAccent),
             )),
-        home: MySplash()
+        home: MySplash(
+          title: 'JAC eLearning',
+          key: super.key!,
+        )
         //MyHomePage(title: 'JAC eLearning'),
         );
   }
 }
 
-
 class MySplash extends StatefulWidget {
-  MySplash({Key key, this.title}) : super(key: key);
+  MySplash({required Key key, required this.title}) : super(key: key);
 
   final String title;
 
@@ -90,8 +93,8 @@ class _MyHomePageState extends State<MySplash> {
     FirebaseMessaging.instance.subscribeToTopic("jac");
 
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      RemoteNotification notification = message.notification;
-      AndroidNotification android = message.notification?.android;
+      RemoteNotification? notification = message.notification;
+      AndroidNotification? android = message.notification!.android;
       if (notification != null && android != null) {
         flutterLocalNotificationsPlugin.show(
             notification.hashCode,
@@ -101,7 +104,7 @@ class _MyHomePageState extends State<MySplash> {
                 android: AndroidNotificationDetails(
               channel.id,
               channel.name,
-              channel.description,
+              channelDescription: channel.description,
               icon: '@drawable/ic_noti',
               priority: Priority.high,
               importance: Importance.high,
@@ -119,9 +122,14 @@ class _MyHomePageState extends State<MySplash> {
     loadPage();
   }
 
-  loadPage(){
-
-    Timer(Duration(seconds: 4), ()=> Get.off(MyHomePage(), curve: Curves.elasticInOut));
+  loadPage() {
+    Timer(
+        Duration(seconds: 4),
+        () => Get.off(
+            MyHomePage(
+              title: "JAC eLearning",
+            ),
+            curve: Curves.elasticInOut));
   }
 
   @override

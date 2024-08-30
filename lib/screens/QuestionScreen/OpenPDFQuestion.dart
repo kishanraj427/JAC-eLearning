@@ -6,8 +6,8 @@ import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
 // ignore: must_be_immutable
 class OpenPDFQuestion extends StatelessWidget {
-  String name, pdfUrl, noti;
-  OpenPDFQuestion({this.name, this.pdfUrl});
+  late String name, pdfUrl, noti;
+  OpenPDFQuestion({required this.name, required this.pdfUrl});
   final pdfViewerController = new PdfViewerController();
 
   @override
@@ -15,19 +15,20 @@ class OpenPDFQuestion extends StatelessWidget {
     final pdfController = Get.put(QPDFController(name: name, url: pdfUrl),
         permanent: true, tag: name);
 
-    return Obx(() {
-      return WillPopScope(
-          onWillPop: () async {
-            bool h = true;
-            if (pdfController.hide.value) {
-              pdfController.hide.value = false;
-              pdfController.expand();
-              return !h;
-            }
-            pdfController.interstitialAd.value.show();
-            return h;
-          },
-          child: Scaffold(
+    return Obx(
+      () {
+        return WillPopScope(
+            onWillPop: () async {
+              bool h = true;
+              if (pdfController.hide.value) {
+                pdfController.hide.value = false;
+                pdfController.expand();
+                return !h;
+              }
+              // pdfController.interstitialAd.value.show();
+              return h;
+            },
+            child: Scaffold(
               resizeToAvoidBottomInset: false,
               appBar: pdfController.hide.value
                   ? null
@@ -53,21 +54,17 @@ class OpenPDFQuestion extends StatelessWidget {
                     canShowScrollHead: true,
                     canShowScrollStatus: true,
                   ),
-                  Positioned(
-                    bottom: 0.5,
-                    child: Container(
-                      width: Get.width,
-                      height: Get.height * 0.1,
-                      alignment: Alignment.bottomCenter,
-                      child: pdfController.banner.value
-                    )
-                    ),
-
+                  // Positioned(
+                  //     bottom: 0.5,
+                  //     child: Container(
+                  //         width: Get.width,
+                  //         height: Get.height * 0.1,
+                  //         alignment: Alignment.bottomCenter,
+                  //         child: pdfController.banner.value)),
                 ],
               ),
-
             ));
-    },
+      },
     );
   }
 }

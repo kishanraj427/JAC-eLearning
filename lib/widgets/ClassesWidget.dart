@@ -1,8 +1,5 @@
-import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jac_elearning/controller/SubjectController.dart';
 import 'package:jac_elearning/screens/BookScreen/SubjectScreen.dart';
@@ -12,15 +9,15 @@ import 'SubjectWidget.dart';
 // ignore: must_be_immutable
 class ClassesWidget extends StatefulWidget {
   String title;
-  ClassesWidget({this.title});
+  ClassesWidget({required this.title});
 
   @override
   State<StatefulWidget> createState() => ClassesWidget2State();
 }
 
 class ClassesWidget2State extends State<ClassesWidget> {
-  SubjectController controller;
-  String title;
+  late SubjectController controller;
+  late String title;
   @override
   void initState() {
     title = widget.title;

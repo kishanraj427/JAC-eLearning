@@ -5,7 +5,7 @@ import 'SolutionList.dart';
 // ignore: must_be_immutable
 class BooksView extends StatelessWidget {
   String clas, subject;
-  BooksView({this.clas, this.subject});
+  BooksView({required this.clas, required this.subject});
 
   @override
   Widget build(BuildContext context) {

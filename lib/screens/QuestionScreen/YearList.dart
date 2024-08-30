@@ -10,22 +10,22 @@ import '../../AppColor.dart';
 // ignore: must_be_immutable
 class YearList extends StatefulWidget {
   String clas, subject;
-  YearList({this.clas, this.subject});
+  YearList({required this.clas, required this.subject});
 
   @override
   _YearListState createState() => _YearListState();
 }
 
 class _YearListState extends State<YearList> {
-  DatabaseReference rootRef;
+  late DatabaseReference rootRef;
   var bookList = <Book>[];
   var controller = TextEditingController();
-  File pdfFile;
+  late File pdfFile;
 
   @override
   void initState() {
     rootRef = FirebaseDatabase.instance
-        .reference()
+        .ref()
         .child("Question")
         .child(widget.clas)
         .child(widget.subject);
@@ -35,42 +35,55 @@ class _YearListState extends State<YearList> {
 
   loadData() {
     rootRef.onChildAdded.listen((event) {
-      var data = event.snapshot.value;
-      var book = Book(
-          name: data["name"].toString(), pdfUrl: data['pdfUrl'].toString());
-      setState(() {
-        bookList.add(book);
-      });
+      var data = event.snapshot.value as Map?;
+      if (data != null) {
+        var book = Book(
+            name: data["name"].toString(), pdfUrl: data['pdfUrl'].toString());
+        setState(() {
+          bookList.add(book);
+        });
+      }
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColor.background,
-      appBar: AppBar(
-        title: Text(widget.subject,
-            style: TextStyle(
-              color: Colors.red,
-            )),
-      ),
-      body: StaggeredGridView.countBuilder(
-        padding: EdgeInsets.symmetric(vertical: 10),
-        physics: BouncingScrollPhysics(),
-        crossAxisCount: 1,
-        itemCount: bookList.length,
-        itemBuilder: (context, index) {
-          return QuestionWidget(
-            title: bookList[index].name,
-            pdfUrl: bookList[index].pdfUrl,
-          );
-        },
-        staggeredTileBuilder: (index) {
-          return new StaggeredTile.fit(1);
-        },
-        mainAxisSpacing: 4,
-        crossAxisSpacing: 4,
-      ),
-    );
+        backgroundColor: AppColor.background,
+        appBar: AppBar(
+          title: Text(widget.subject,
+              style: TextStyle(
+                color: Colors.red,
+              )),
+        ),
+        body: ListView.builder(
+          padding: EdgeInsets.symmetric(vertical: 10),
+          physics: BouncingScrollPhysics(),
+          itemCount: bookList.length,
+          itemBuilder: (context, index) {
+            return QuestionWidget(
+              title: bookList[index].name,
+              pdfUrl: bookList[index].pdfUrl,
+            );
+          },
+        )
+        // StaggeredGridView.countBuilder(
+        //   padding: EdgeInsets.symmetric(vertical: 10),
+        //   physics: BouncingScrollPhysics(),
+        //   crossAxisCount: 1,
+        //   itemCount: bookList.length,
+        //   itemBuilder: (context, index) {
+        //     return QuestionWidget(
+        //       title: bookList[index].name,
+        //       pdfUrl: bookList[index].pdfUrl,
+        //     );
+        //   },
+        //   staggeredTileBuilder: (index) {
+        //     return new StaggeredTile.fit(1);
+        //   },
+        //   mainAxisSpacing: 4,
+        //   crossAxisSpacing: 4,
+        // ),
+        );
   }
 }

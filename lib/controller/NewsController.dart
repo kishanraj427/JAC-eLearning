@@ -1,13 +1,13 @@
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:get/get.dart';
 import 'package:jac_elearning/models/News.dart';
-import 'package:device_id/device_id.dart' as Device;
 
 class NewsController extends GetxController {
   RxList newsList = [].obs;
-  String deviceId;
+  late String deviceId;
   Rx<DatabaseReference> rootRef =
-      FirebaseDatabase.instance.reference().child('News').obs;
+      FirebaseDatabase.instance.ref().child('News').obs;
   @override
   void onInit() {
     loadData();
@@ -15,16 +15,21 @@ class NewsController extends GetxController {
   }
 
   loadData() async {
-    deviceId = await Device.DeviceId.getID;
+    DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+    AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
+    deviceId = androidInfo.id;
+
     try {
       rootRef.value.onChildAdded.listen((event) {
-        var data = event.snapshot.value;
-        var news = News(
-            key: data['key'],
-            type: data['type'],
-            text: data['text'],
-            url: data['url']);
-        newsList.insert(0, news);
+        var data = event.snapshot.value as Map?;
+        if (data != null) {
+          var news = News(
+              key: data['key'],
+              type: data['type'],
+              text: data['text'],
+              url: data['url']);
+          newsList.insert(0, news);
+        }
       });
     } catch (e) {
       print(e);

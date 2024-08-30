@@ -6,7 +6,7 @@ import 'package:jac_elearning/screens/BookScreen/BooksView.dart';
 // ignore: must_be_immutable
 class SubjectWidget extends StatelessWidget {
   String clas, subject;
-  SubjectWidget({this.clas, this.subject});
+  SubjectWidget({required this.clas, required this.subject});
 
   @override
   Widget build(BuildContext context) {

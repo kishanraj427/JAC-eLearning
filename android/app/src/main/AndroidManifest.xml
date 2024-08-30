@@ -8,7 +8,7 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
    <application
         android:label="JAC eLearning"
-       android:requestLegacyExternalStorage="true"
+        android:requestLegacyExternalStorage="true"
         android:icon="@drawable/ic_icon">
         <activity
             android:name=".MainActivity"

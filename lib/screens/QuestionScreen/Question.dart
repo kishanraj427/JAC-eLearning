@@ -15,9 +15,9 @@ class Question extends StatefulWidget {
 }
 
 class _QuestionState extends State<Question> {
-  final rootRef = FirebaseDatabase.instance.reference().child("Question");
+  final rootRef = FirebaseDatabase.instance.ref().child("Question");
   TextEditingController controller = TextEditingController();
-  QuestionController questionController;
+  late QuestionController questionController;
 
   @override
   void initState() {
@@ -42,28 +42,38 @@ class _QuestionState extends State<Question> {
                   ? Container()
                   : recentDat(context),
             )),
-        Obx(
-          () => questionController.questionList.length == 0
-              ? SliverToBoxAdapter(
-                  child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 30, vertical: 100),
-                  child: CircularProgressIndicator(),
-                ))
-              : SliverStaggeredGrid.countBuilder(
-                  crossAxisCount: 1,
-                  itemCount: questionController.questionList.length,
-                  itemBuilder: (context, index) {
-                    return QClassesWidget(
-                      title: questionController.questionList[index],
-                    );
-                  },
-                  staggeredTileBuilder: (index) {
-                    return new StaggeredTile.fit(1);
-                  },
-                  mainAxisSpacing: 4,
-                  crossAxisSpacing: 4,
-                ),
-        )
+        Obx(() => questionController.questionList.length == 0
+                ? SliverToBoxAdapter(
+                    child: Padding(
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 30, vertical: 100),
+                    child: CircularProgressIndicator(),
+                  ))
+                : ListView.builder(
+                    padding: EdgeInsets.symmetric(vertical: 10),
+                    physics: BouncingScrollPhysics(),
+                    itemCount: questionController.questionList.length,
+                    itemBuilder: (context, index) {
+                      return QClassesWidget(
+                        title: questionController.questionList[index],
+                      );
+                    },
+                  )
+            // : SliverStaggeredGrid.countBuilder(
+            //     crossAxisCount: 1,
+            //     itemCount: questionController.questionList.length,
+            //     itemBuilder: (context, index) {
+            //       return QClassesWidget(
+            //         title: questionController.questionList[index],
+            //       );
+            //     },
+            //     staggeredTileBuilder: (index) {
+            //       return new StaggeredTile.fit(1);
+            //     },
+            //     mainAxisSpacing: 4,
+            //     crossAxisSpacing: 4,
+            //   ),
+            )
       ]),
       backgroundColor: AppColor.background,
     );

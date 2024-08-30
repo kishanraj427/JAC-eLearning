@@ -1,5 +1,5 @@
-class Book{
+class Book {
   String name;
   String pdfUrl;
-  Book({this.name, this.pdfUrl});
+  Book({required this.name, required this.pdfUrl});
 }

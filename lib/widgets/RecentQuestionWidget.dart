@@ -5,7 +5,7 @@ import 'package:jac_elearning/screens/QuestionScreen/OpenPDFQuestion.dart';
 // ignore: must_be_immutable
 class RecentQuestionWidget extends StatelessWidget {
   String url, name;
-  RecentQuestionWidget({this.name, this.url});
+  RecentQuestionWidget({required this.name, required this.url});
 
   @override
   Widget build(BuildContext context) {

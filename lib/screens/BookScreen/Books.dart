@@ -14,15 +14,9 @@ class Books extends StatefulWidget {
 }
 
 class BooksState extends State<Books> {
-  Size screenSize;
-  TextEditingController controller = TextEditingController();
-  ClassController classController;
-
-  @override
-  void initState() {
-    classController = Get.put(ClassController());
-    super.initState();
-  }
+  late Size screenSize;
+  late TextEditingController controller = TextEditingController();
+  late ClassController classController = Get.put(ClassController());
 
   @override
   Widget build(BuildContext context) {
@@ -50,23 +44,24 @@ class BooksState extends State<Books> {
                     child: Padding(
                     padding:
                         EdgeInsets.symmetric(horizontal: 30, vertical: 100),
-                    child: CircularProgressIndicator.adaptive(
-                      
-                    ),
+                    child: CircularProgressIndicator.adaptive(),
                   ))
-                : SliverStaggeredGrid.countBuilder(
-                    crossAxisCount: 1,
+                : GridView.builder(
+                    gridDelegate: SliverWovenGridDelegate.count(
+                      pattern: [WovenGridTile(1)],
+                      crossAxisCount: 1,
+                      mainAxisSpacing: 4,
+                      crossAxisSpacing: 4,
+                    ),
                     itemCount: classController.classList.length,
                     itemBuilder: (context, index) {
                       return ClassesWidget(
                         title: classController.classList[index],
                       );
                     },
-                    staggeredTileBuilder: (index) {
-                      return new StaggeredTile.fit(1);
-                    },
-                    mainAxisSpacing: 4,
-                    crossAxisSpacing: 4,
+                    // staggeredTileBuilder: (index) {
+                    //   return new StaggeredTile.fit(1);
+                    // },
                   ),
           )
         ],

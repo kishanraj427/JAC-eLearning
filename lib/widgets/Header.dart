@@ -7,7 +7,7 @@ import '../AppColor.dart';
 // ignore: must_be_immutable
 class Header extends StatelessWidget {
   String path, title, description;
-  Header({this.path, this.title, this.description});
+  Header({required this.path, required this.title, required this.description});
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;

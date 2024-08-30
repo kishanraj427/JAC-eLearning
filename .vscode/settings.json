@@ -1,3 +1,4 @@
 {
-     "files.autoSave": "afterDelay"
+  "files.autoSave": "afterDelay",
+  "dart.flutterSdkPath": ".fvm/versions/3.22.1"
 }

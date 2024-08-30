@@ -7,7 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class QuestionController extends GetxController {
   RxList questionList = [].obs;
   RxList recentList = [].obs;
-  final rootRef = FirebaseDatabase.instance.reference().child("Question");
+  final rootRef = FirebaseDatabase.instance.ref().child("Question");
 
   @override
   void onInit() {
@@ -20,10 +20,12 @@ class QuestionController extends GetxController {
   loadData() async {
     print('load data start');
     rootRef.onChildAdded.listen((event) {
-      Map data = event.snapshot.value;
-      var name = data["name"];
-      questionList.insert(0, name);
-      print(name);
+      Map? data = event.snapshot.value as Map?;
+      if (data != null) {
+        var name = data["name"];
+        questionList.insert(0, name);
+        print(name);
+      }
     });
   }
 

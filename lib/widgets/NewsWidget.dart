@@ -1,9 +1,11 @@
+// ignore_for_file: unnecessary_null_comparison
+
+import 'package:any_link_preview/any_link_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jac_elearning/controller/NewsController.dart';
 import 'package:photo_view/photo_view.dart';
-import 'package:simple_url_preview/simple_url_preview.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../AppColor.dart';
@@ -11,7 +13,11 @@ import '../AppColor.dart';
 // ignore: must_be_immutable
 class NewsWidget extends StatelessWidget {
   String url, type, id, text;
-  NewsWidget({this.id, this.type, this.text, this.url});
+  NewsWidget(
+      {required this.id,
+      required this.type,
+      required this.text,
+      required this.url});
 
   getUID() async {
     Get.find<NewsController>()
@@ -96,15 +102,14 @@ class NewsWidget extends StatelessWidget {
     return Column(
       children: [
         text == null
-            ? SimpleUrlPreview(
-                url: url,
-                bgColor: Colors.white,
+            ? AnyLinkPreview(
+                link: url,
+                backgroundColor: Colors.white,
                 previewHeight: 140,
                 titleStyle:
                     TextStyle(color: Colors.black, fontWeight: FontWeight.w500),
-                descriptionStyle: TextStyle(
+                bodyStyle: TextStyle(
                     color: Colors.black87, fontWeight: FontWeight.w400),
-                imageLoaderColor: Colors.purple[300],
                 onTap: () {
                   getUID();
                   launchUrl();

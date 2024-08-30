@@ -6,7 +6,7 @@ import 'package:jac_elearning/screens/BookScreen/OpenPDF.dart';
 // ignore: must_be_immutable
 class BookWidget extends StatelessWidget {
   String title, pdfUrl, clas, subject, type;
-  BookWidget({this.clas, this.type, this.subject, this.title, this.pdfUrl});
+  BookWidget({required this.clas, required this.type, required this.subject, required this.title, required this.pdfUrl});
 
   @override
   Widget build(BuildContext context) {

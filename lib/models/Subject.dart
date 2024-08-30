@@ -1,4 +1,4 @@
 class Subject {
   String clas, subjectName;
-  Subject({this.clas, this.subjectName});
+  Subject({required this.clas, required this.subjectName});
 }

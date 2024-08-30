@@ -5,18 +5,19 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jac_elearning/screens/BookScreen/Books.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 import 'AppColor.dart';
 import 'package:get/get.dart';
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'screens/HomeScreen/Home.dart';
 import 'screens/QuestionScreen/Question.dart';
-import 'package:share/share.dart' as Share;
+import 'package:share_plus/share_plus.dart';
 import 'package:path_provider/path_provider.dart' as p;
 import 'package:url_launcher/url_launcher.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+  MyHomePage({key, required this.title});
 
   final String title;
 
@@ -27,8 +28,8 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int appVersion = 4;
   int currentPage = 0;
-  DatabaseReference rootRef = FirebaseDatabase.instance.reference();
-  PageController controller;
+  DatabaseReference rootRef = FirebaseDatabase.instance.ref();
+  late PageController controller;
   List<String> title = ["Home", "Books", "Questions"];
   String androidAppURL =
       "https://play.google.com/store/apps/details?id=com.jac.jacboard.jacquestion.jac_elearning";
@@ -51,15 +52,15 @@ class _MyHomePageState extends State<MyHomePage> {
           backgroundColor: AppColor.white);
     }
     bool file =
-        await File((await p.getExternalStorageDirectory()).path + "/image.png")
+        await File((await p.getExternalStorageDirectory())!.path + "/image.png")
             .exists();
     if (!file) {
       final bytes = await rootBundle.load('assets/images/jacImage.png');
-      new File((await p.getExternalStorageDirectory()).path + "/image.png")
+      new File((await p.getExternalStorageDirectory())!.path + "/image.png")
           .writeAsBytes(bytes.buffer.asUint8List());
     }
     rootRef.child('App Version').once().then((value) {
-      if (value.value >= appVersion) showUpdate();
+      if ((value.snapshot.value as int) >= appVersion) showUpdate();
     });
   }
 
@@ -76,8 +77,8 @@ class _MyHomePageState extends State<MyHomePage> {
             fontWeight: FontWeight.w400),
         actions: [
           // ignore: deprecated_member_use
-          FlatButton(
-              color: Colors.redAccent,
+          TextButton(
+              style: TextButton.styleFrom(backgroundColor: Colors.redAccent),
               onPressed: () {
                 Get.back();
               },
@@ -86,8 +87,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 style: TextStyle(color: Colors.white),
               )),
           // ignore: deprecated_member_use
-          FlatButton(
-              color: Colors.redAccent,
+          TextButton(
+              style: TextButton.styleFrom(backgroundColor: Colors.redAccent),
               onPressed: () {
                 launch(androidAppURL);
               },
@@ -130,13 +131,14 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
                 onPressed: () async {
                   File data = new File(
-                      (await p.getExternalStorageDirectory()).path +
+                      (await p.getExternalStorageDirectory())!.path +
                           "/image.png");
                   print(data);
                   await data.exists()
-                      ? Share.Share.shareFiles([data.path],
-                          text: "*Download JAC eLearning App :*\n$androidAppURL")
-                      : Share.Share.share(
+                      ? Share.shareXFiles([XFile(data.path)],
+                          text:
+                              "*Download JAC eLearning App :*\n$androidAppURL")
+                      : Share.share(
                           "*Download JAC eLearning App :*\n$androidAppURL");
                 })
           ],
@@ -314,7 +316,7 @@ class _MyHomePageState extends State<MyHomePage> {
         var result = await Connectivity().checkConnectivity();
         if (result != ConnectivityResult.none) {
           rootRef.child(url).once().then((value) {
-            launch(value.value, enableJavaScript: true);
+            launchUrlString("${value.snapshot.value}");
           });
         } else {
           Get.back();
