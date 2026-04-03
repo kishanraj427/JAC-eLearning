@@ -91,7 +91,7 @@ class _MyHomePageState extends State<MySplash> {
         const AndroidInitializationSettings('@drawable/ic_noti');
     var initializationSetting =
         InitializationSettings(android: initializationSettingAndroid);
-    flutterLocalNotificationsPlugin.initialize(initializationSetting);
+    flutterLocalNotificationsPlugin.initialize(settings: initializationSetting);
     FirebaseMessaging.instance.subscribeToTopic("jac");
 
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
@@ -99,10 +99,10 @@ class _MyHomePageState extends State<MySplash> {
       AndroidNotification? android = message.notification!.android;
       if (notification != null && android != null) {
         flutterLocalNotificationsPlugin.show(
-            notification.hashCode,
-            notification.title,
-            notification.body,
-            NotificationDetails(
+            id: notification.hashCode,
+            title: notification.title,
+            body: notification.body,
+            notificationDetails: NotificationDetails(
                 android: AndroidNotificationDetails(
               channel.id,
               channel.name,
