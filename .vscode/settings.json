@@ -1,5 +1,5 @@
 {
   "files.autoSave": "afterDelay",
-  "dart.flutterSdkPath": ".fvm/versions/3.22.1",
+  "dart.flutterSdkPath": ".fvm/versions/3.41.0",
   "java.configuration.updateBuildConfiguration": "interactive"
 }
