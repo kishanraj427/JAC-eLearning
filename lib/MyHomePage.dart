@@ -45,7 +45,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   downloadImage() async {
     var result = await Connectivity().checkConnectivity();
-    if (result == ConnectivityResult.none) {
+    if (result.contains(ConnectivityResult.none)) {
       Get.snackbar('Connection Error', 'Please Turn on your Internet!',
           snackPosition: SnackPosition.TOP,
           borderColor: Colors.redAccent,
@@ -314,7 +314,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return ListTile(
       onTap: () async {
         var result = await Connectivity().checkConnectivity();
-        if (result != ConnectivityResult.none) {
+        if (!result.contains(ConnectivityResult.none)) {
           rootRef.child(url).once().then((value) {
             launchUrlString("${value.snapshot.value}");
           });

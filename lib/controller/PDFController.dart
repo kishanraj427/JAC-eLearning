@@ -86,8 +86,7 @@ class PDFController extends GetxController {
           var ct = await checkDirectory('${dir.path}/$clas/$subject/$type');
           if (ct) {
             var result = await Connectivity().checkConnectivity();
-            // ignore: unrelated_type_equality_checks
-            if (result != ConnectivityResult.none) {
+            if (!result.contains(ConnectivityResult.none)) {
               loadPDF(url);
             } else {
               Get.snackbar('Connection Error', 'Please Turn on your Internet!',
@@ -103,22 +102,23 @@ class PDFController extends GetxController {
   }
 
   loadPDF(String url) async {
-    HttpClient clint = HttpClient();
-    String myUrl;
     try {
-      myUrl = url;
-      var request = await clint.getUrl(Uri.parse(myUrl));
+      HttpClient client = HttpClient();
+      var request = await client.getUrl(Uri.parse(url));
       var response = await request.close();
       int dataSize = response.contentLength;
       final bytes = <int>[];
-      response.listen((event) {
-        bytes.addAll(event);
-        downData.value = (bytes.length * 100 / dataSize);
-      }, onDone: () async {
+      await for (var chunk in response) {
+        bytes.addAll(chunk);
+        if (dataSize > 0) {
+          downData.value = (bytes.length * 100 / dataSize);
+        }
+      }
+      if (bytes.isNotEmpty) {
         file = File('${directory.path}/$name.pdf');
-        await file.writeAsBytes(bytes);
+        await file.writeAsBytes(bytes, flush: true);
         isLoaded.value = true;
-      });
+      }
     } catch (e) {
       Fluttertoast.showToast(msg: e.toString());
     }
