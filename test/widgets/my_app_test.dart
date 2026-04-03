@@ -6,15 +6,15 @@ import 'package:jac_elearning/AppColor.dart';
 void main() {
   group('MyApp Theme', () {
     test('AppColor mainColor should be red tone', () {
-      expect(AppColor.mainColor.red, greaterThan(200));
-      expect(AppColor.mainColor.green, lessThan(128));
-      expect(AppColor.mainColor.blue, lessThan(128));
+      expect((AppColor.mainColor.r * 255).round(), greaterThan(200));
+      expect((AppColor.mainColor.g * 255).round(), lessThan(128));
+      expect((AppColor.mainColor.b * 255).round(), lessThan(128));
     });
 
     test('AppColor background should be light gray', () {
-      expect(AppColor.background.red, greaterThan(200));
-      expect(AppColor.background.green, greaterThan(200));
-      expect(AppColor.background.blue, greaterThan(200));
+      expect((AppColor.background.r * 255).round(), greaterThan(200));
+      expect((AppColor.background.g * 255).round(), greaterThan(200));
+      expect((AppColor.background.b * 255).round(), greaterThan(200));
     });
   });
 

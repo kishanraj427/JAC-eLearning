@@ -25,11 +25,11 @@ void main() {
     });
 
     test('all colors should be fully opaque', () {
-      expect(AppColor.background.alpha, 255);
-      expect(AppColor.mainColor.alpha, 255);
-      expect(AppColor.title.alpha, 255);
-      expect(AppColor.text.alpha, 255);
-      expect(AppColor.white.alpha, 255);
+      expect(AppColor.background.a, 1.0);
+      expect(AppColor.mainColor.a, 1.0);
+      expect(AppColor.title.a, 1.0);
+      expect(AppColor.text.a, 1.0);
+      expect(AppColor.white.a, 1.0);
     });
   });
 }
